@@ -65,6 +65,12 @@ class ApiAuthController extends AbstractController {
         }
 
 
-        return new JsonResponse(["success" => $user->getUsername(). " has been registered!"], 200);
+        //return new JsonResponse(["success" => $user->getUsername(). " has been registered!"], 200);
+        return $this->redirectToRoute('api_auth_login',
+        	[
+	            'username' => $data['username'],
+	            'password' => $data['password']
+	        ],
+	    307);
     }
 }

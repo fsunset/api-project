@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Entity\User;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,10 +23,7 @@ class ApiAuthController extends AbstractController {
      * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function register(Request $request, UserManagerInterface $userManager) {
-        $data = json_decode(
-            $request->getContent(),
-            true
-        );
+        $data = json_decode($request->getContent(), true);
 
         $validator = Validation::createValidator();
 
@@ -54,8 +50,7 @@ class ApiAuthController extends AbstractController {
             ->setEmail($email)
             ->setEnabled(true)
             ->setRoles(['ROLE_USER'])
-            ->setSuperAdmin(false)
-        ;
+            ->setSuperAdmin(false);
 
 
         try {
@@ -64,13 +59,6 @@ class ApiAuthController extends AbstractController {
             return new JsonResponse(["error" => $e->getMessage()], 500);
         }
 
-
-        //return new JsonResponse(["success" => $user->getUsername(). " has been registered!"], 200);
-        return $this->redirectToRoute('api_auth_login',
-        	[
-	            'username' => $data['username'],
-	            'password' => $data['password']
-	        ],
-	    307);
+        return new JsonResponse(["success" => $user->getUsername(). " has been registered!"], 200);
     }
 }

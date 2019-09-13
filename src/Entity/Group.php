@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,16 @@ class Group
      * @ORM\Column(type="datetime")
      */
     private $created_at;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserGroupMember", inversedBy="groups")
+     */
+    private $UserGroupMember;
+
+    public function __construct()
+    {
+        $this->UserGroupMember = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +80,32 @@ class Group
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserGroupMember[]
+     */
+    public function getUserGroupMember(): Collection
+    {
+        return $this->UserGroupMember;
+    }
+
+    public function addUserGroupMember(UserGroupMember $userGroupMember): self
+    {
+        if (!$this->UserGroupMember->contains($userGroupMember)) {
+            $this->UserGroupMember[] = $userGroupMember;
+        }
+
+        return $this;
+    }
+
+    public function removeUserGroupMember(UserGroupMember $userGroupMember): self
+    {
+        if ($this->UserGroupMember->contains($userGroupMember)) {
+            $this->UserGroupMember->removeElement($userGroupMember);
+        }
 
         return $this;
     }

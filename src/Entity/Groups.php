@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GroupsRepository")
  */
-class Group
+class Groups
 {
     /**
      * @ORM\Id()
@@ -33,14 +33,9 @@ class Group
      */
     private $created_at;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\UserGroupMember", inversedBy="groups")
-     */
-    private $UserGroupMember;
-
     public function __construct()
     {
-        $this->UserGroupMember = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -80,32 +75,6 @@ class Group
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UserGroupMember[]
-     */
-    public function getUserGroupMember(): Collection
-    {
-        return $this->UserGroupMember;
-    }
-
-    public function addUserGroupMember(UserGroupMember $userGroupMember): self
-    {
-        if (!$this->UserGroupMember->contains($userGroupMember)) {
-            $this->UserGroupMember[] = $userGroupMember;
-        }
-
-        return $this;
-    }
-
-    public function removeUserGroupMember(UserGroupMember $userGroupMember): self
-    {
-        if ($this->UserGroupMember->contains($userGroupMember)) {
-            $this->UserGroupMember->removeElement($userGroupMember);
-        }
 
         return $this;
     }

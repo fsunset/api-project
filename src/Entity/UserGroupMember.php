@@ -29,7 +29,7 @@ class UserGroupMember
     private $group_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Group", mappedBy="UserGroupMember")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Groups", mappedBy="UserGroupMember")
      */
     private $groups;
 
